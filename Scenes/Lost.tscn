@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/OstrichSans-Heavy.otf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[node name="Lost" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 404.032
+margin_top = 267.995
+margin_right = 444.032
+margin_bottom = 281.995
+custom_fonts/font = SubResource( 1 )
+text = "You Lost!
+Conserve your ammo and be sneaky next time."
+__meta__ = {
+"_edit_use_anchors_": false
+}

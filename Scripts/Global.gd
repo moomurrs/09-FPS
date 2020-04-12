@@ -1,6 +1,7 @@
 extends Spatial
 
 var score = 0
+var totalEnemies = 5
 onready var Score = get_node("/root/Game/HUD/Score")
 onready var Bullets = get_node("/root/Game/HUD/Bullets")
 

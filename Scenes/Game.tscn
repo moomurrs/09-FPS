@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/uziGoldLong.obj" type="PackedScene" id=2]
@@ -7,11 +7,13 @@
 [ext_resource path="res://Scenes/sedan.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/suvLuxury.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/van.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scripts/Enemies.gd" type="Script" id=9]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 100, 100 )
 
-[sub_resource type="ConvexPolygonShape" id=6]
+[sub_resource type="ConvexPolygonShape" id=2]
 points = PoolVector3Array( -50.2732, 0.273224, -50.2732, -50.2732, 0.273224, 50.2732, 50.2732, 0.273224, -50.2732, 50.2732, 0.273224, 50.2732 )
 
 [sub_resource type="CapsuleShape" id=3]
@@ -24,6 +26,12 @@ extents = Vector3( 0.4, 0.1, 0.4 )
 size = 36
 font_data = ExtResource( 4 )
 
+[sub_resource type="DynamicFont" id=6]
+size = 26
+outline_size = 1
+outline_color = Color( 0.890196, 0.231373, 0.231373, 1 )
+font_data = ExtResource( 4 )
+
 [node name="Game" type="Spatial"]
 script = ExtResource( 3 )
 
@@ -34,7 +42,7 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Ground"]
-shape = SubResource( 6 )
+shape = SubResource( 2 )
 
 [node name="Player" type="KinematicBody" parent="."]
 script = ExtResource( 1 )
@@ -95,6 +103,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LockingStatus" type="Label" parent="HUD"]
+margin_left = 626.0
+margin_top = 68.0
+margin_right = 840.0
+margin_bottom = 112.0
+custom_fonts/font = SubResource( 6 )
+text = "Enemy Locking! Move!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Cars" type="Spatial" parent="."]
 
 [node name="sedan" parent="Cars" instance=ExtResource( 5 )]
@@ -105,3 +124,39 @@ transform = Transform( -8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, 7, 0, -
 
 [node name="van" parent="Cars" instance=ExtResource( 7 )]
 transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, -12, 0, -27.5684 )
+
+[node name="sedan2" parent="Cars" instance=ExtResource( 5 )]
+transform = Transform( 1.15955, 0, -5.88689, 0, 6, 0, 5.88689, 0, 1.15955, 17.5488, 0, 5.21927 )
+
+[node name="Enemies" type="Spatial" parent="."]
+script = ExtResource( 9 )
+
+[node name="Enemy5" parent="Enemies" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1259, 8.74724, -30.0792 )
+
+[node name="Enemy4" parent="Enemies" instance=ExtResource( 8 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 8.01736, 20 )
+
+[node name="Timer" type="Timer" parent="Enemies"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Enemy" parent="Enemies" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27.6858, 2, -43.545 )
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource( 8 )]
+transform = Transform( 0.269004, 0, -0.963139, 0, 1, 0, 0.963139, 0, 0.269004, 20.1182, 2, -24.8925 )
+
+[node name="Enemy3" parent="Enemies" instance=ExtResource( 8 )]
+transform = Transform( -1.71167, 0, 2.46378, 0, 3, 0, -2.46378, 0, -1.71167, 23.218, 6.0561, 29.9962 )
+[connection signal="kill" from="Enemies/Enemy5" to="Enemies" method="_on_Enemy5_kill"]
+[connection signal="locking" from="Enemies/Enemy5" to="Enemies" method="_on_Enemy5_locking"]
+[connection signal="kill" from="Enemies/Enemy4" to="Enemies" method="_on_Enemy4_kill"]
+[connection signal="locking" from="Enemies/Enemy4" to="Enemies" method="_on_Enemy4_locking"]
+[connection signal="timeout" from="Enemies/Timer" to="Enemies" method="_on_Timer_timeout"]
+[connection signal="kill" from="Enemies/Enemy" to="Enemies" method="_on_Enemy_kill"]
+[connection signal="locking" from="Enemies/Enemy" to="Enemies" method="_on_Enemy_locking"]
+[connection signal="kill" from="Enemies/Enemy2" to="Enemies" method="_on_Enemy2_kill"]
+[connection signal="locking" from="Enemies/Enemy2" to="Enemies" method="_on_Enemy2_locking"]
+[connection signal="kill" from="Enemies/Enemy3" to="Enemies" method="_on_Enemy3_kill"]
+[connection signal="locking" from="Enemies/Enemy3" to="Enemies" method="_on_Enemy3_locking"]

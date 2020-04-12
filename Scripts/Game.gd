@@ -1,6 +1,7 @@
 extends Spatial
 
 func _ready():
+	$HUD/LockingStatus.visible = false
 	get_node("/root/Global").update_score(0)
 
 func _unhandled_input(event):

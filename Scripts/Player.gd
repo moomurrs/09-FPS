@@ -11,12 +11,13 @@ var jump = 10
 var jumping = false
 var Bullet = preload("res://Scenes/Bullet.tscn")
 onready var Bullets = get_node("/root/Game/HUD/Bullets")
-var bulletCount = 20
+var bulletCount = 6
+
 
 func _ready():
 	# disable mosue cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	Bullets.text = "20/20"
+	Bullets.text = "6/6"
 	
 
 # return player location based on input
@@ -60,9 +61,14 @@ func _unhandled_input(event):
 		
 	if event.is_action_pressed("shoot"):
 		bulletCount -= 1
-		if bulletCount >= 0:
-			Bullets.text = str(bulletCount) + "/20"
+		if bulletCount > 0:
+			Bullets.text = str(bulletCount) + "/6"
 			var bullet = Bullet.instance()
 			bullet.start($Pivot/Muzzle.global_transform)
 			get_node("/root/Game/Bullets").add_child(bullet)
+			if get_node("/root/Global").totalEnemies == 0:
+				get_tree().change_scene("res://Scenes/Win.tscn")
+			
+		else:
+			get_tree().change_scene("res://Scenes/Lost.tscn")
 		
